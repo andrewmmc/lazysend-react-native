@@ -6,11 +6,6 @@
 
 ![Screen Capture](src/assets/images/screenshot.png)
 
-## Download & Preview
-![App Store](src/assets/images/download-app-store.png)
-
-Coming Soon
-
 ## Clone & Install
 It is an application built with [create-react-native-app](https://github.com/react-community/create-react-native-app) with [Expo](https://expo.io).
 
