@@ -44,7 +44,7 @@ export default class News extends Component {
 	}
 
 	render() {
-		let articlesList = this.states.articles.map((item, index) => {
+		let articlesList = this.state.articles.map((item, index) => {
 			return <ListItem key={ index }>
 				<Thumbnail square size={ 80 } source={ { uri: item.urlToImage } }/>
 				<Body>
