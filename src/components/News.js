@@ -1,6 +1,6 @@
 import axios from 'axios'
 import React, {Component} from 'react'
-import {StyleSheet, Linking} from 'react-native'
+import {StyleSheet, RefreshControl, Linking} from 'react-native'
 import {Container, Header, Content, List, ListItem, Thumbnail, Text, Body} from 'native-base'
 
 const styles = StyleSheet.create({
@@ -17,6 +17,7 @@ export default class News extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
+			refreshing: false,
 			articles: [],
 			pageNum: 1
 		}
@@ -24,6 +25,13 @@ export default class News extends Component {
 
 	componentDidMount() {
 		this.getNews()
+	}
+
+	_onRefresh() {
+		this.setState({ refreshing: true, pageNum: 1 })
+		this.getNews().then(() => {
+			this.setState({ refreshing: false })
+		})
 	}
 
 	getNews() {
@@ -57,7 +65,12 @@ export default class News extends Component {
 		return (
 			<Container style={ styles.pageContainer }>
 				<Content>
-					<List>
+					<List refreshControl={
+						<RefreshControl
+							refreshing={ this.state.refreshing }
+							onRefresh={ this._onRefresh.bind(this) }
+						/>
+					}>
 						{ articlesList }
 					</List>
 				</Content>
