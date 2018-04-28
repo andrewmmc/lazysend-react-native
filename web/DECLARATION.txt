@@ -1,0 +1,1 @@
+This is NOT an official product by WhatsApp Inc. Any communication between users and WhatsApp servers is handled by official WhatsApp application. It only provides a shortcut for users to open official WhatsApp application by using API links.

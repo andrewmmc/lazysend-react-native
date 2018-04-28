@@ -32,11 +32,11 @@ export default class About extends Component {
 			}, {
 				'title': 'Open Source Licenses',
 				'icon': 'ios-information-circle',
-				'inAppUrl': 'https://github.com/andrewmmc/add9u-react-native/blob/master/LICENSES.md',
+				'inAppUrl': 'https://add9u.com/mobile/LICENSES.txt',
 			}, {
 				'title': 'Declaration',
 				'icon': 'ios-alert',
-				'inAppUrl': 'https://github.com/andrewmmc/add9u-react-native/blob/master/DECLARATION.md',
+				'inAppUrl': 'https://add9u.com/mobile/DECLARATION.txt',
 			}, {
 				'title': 'News powered by NewsAPI.org',
 				'icon': 'ios-paper',
