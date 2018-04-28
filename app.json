@@ -1,22 +1,4 @@
 {
-  "expo": {
-    "name": "Add9u for WhatsApp",
-    "slug": "add9u-mobile",
-    "description": "Send a WhatsApp message to a person without adding him/her to phone book.",
-    "sdkVersion": "25.0.0",
-    "privacy": "unlisted",
-    "version": "0.1.0",
-    "icon": "./src/assets/images/icon-1024x1024.png",
-    "platforms": [
-      "ios"
-    ],
-    "githubUrl": "https://github.com/andrewmmc/add9u-react-native",
-    "orientation": "portrait",
-    "ios": {
-      "bundleIdentifier": "com.andrewmmc.add9umobile"
-    },
-    "android": {
-      "package": "com.andrewmmc.add9umobile"
-    }
-  }
+  "name": "add9u-mobile",
+  "displayName": "add9u-mobile"
 }

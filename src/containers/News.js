@@ -89,7 +89,7 @@ export default class News extends Component {
 					<FlatList
 						data={ articles }
 						renderItem={ renderItem }
-						keyExtractor={ (item, index) => index }
+						keyExtractor={ (item, index) => index.toString() }
 						refreshing={ loading }
 						onRefresh={ () => { this.onRefresh() } }
 						onEndReachedThreshold={0.1}

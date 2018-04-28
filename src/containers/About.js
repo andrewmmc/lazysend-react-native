@@ -75,7 +75,7 @@ export default class About extends Component {
 					<FlatList
 						data={ items }
 						renderItem={ renderItem }
-						keyExtractor={ (item, index) => index }
+            keyExtractor={ (item, index) => index.toString() }
 					/>
 				</View>
 			</Container>
