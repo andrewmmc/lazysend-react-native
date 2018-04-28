@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {StyleSheet, Linking} from 'react-native'
-import {Text, Container, Header, Body, Title, Content, Grid, Col, Form, Item, Input, Button} from 'native-base'
-import Icon from 'react-native-vector-icons/FontAwesome'
+import {Text, Container, Header, Title, Content, Grid, Col, Form, Item, Input, Button} from 'native-base'
+import Icon from 'react-native-vector-icons/Ionicons'
 import SimplePicker from 'react-native-simple-picker'
 import CountryCode from '../utils/CountryCode'
 
@@ -19,13 +19,6 @@ const styles = StyleSheet.create({
 		paddingTop: 20,
 		textAlign: 'center'
 	},
-	'copyrightText': {
-		color: '#868e96',
-		paddingTop: 4,
-		paddingBottom: 4,
-		fontSize: 14,
-		textAlign: 'center'
-	},
 	'pageContainer': {
 		backgroundColor: '#FFFFFF'
 	},
@@ -36,10 +29,6 @@ const styles = StyleSheet.create({
 	'textContainer': {
 		paddingTop: 50,
 		paddingBottom: 50
-	},
-	'copyrightContainer': {
-		paddingTop: 40,
-		paddingBottom: 40
 	},
 	'countryCodePickerContainer': {
 		marginBottom: 15
@@ -80,7 +69,7 @@ export default class WhatsApp extends Component {
 				<Content style={ styles.homeContainer }>
 					<Grid>
 						<Col style={ styles.textContainer }>
-							<Icon name="commenting-o" style={ styles.icon }/>
+							<Icon name="ios-chatbubbles" style={ styles.icon }/>
 							<Text style={ styles.leadingText }>
 								Send a WhatsApp message to a person without adding him/her to phone book.
 							</Text></Col>
@@ -103,19 +92,17 @@ export default class WhatsApp extends Component {
 							disabled={ this.state.phoneNumber === '' }
 							success><Text>Send Message</Text></Button>
 					</Form>
-					<Grid>
-						<Col style={ styles.copyrightContainer }>
-							<Text style={ styles.copyrightText }
-										onPress={ () => Linking.openURL('https://github.com/andrewmmc/add9u-react-native') }>Github</Text>
-							<Text style={ styles.copyrightText }
-										onPress={ () => Linking.openURL('https://github.com/andrewmmc/add9u-react-native/open-source-licenses.md') }>Open
-								Source
-								Licenses</Text>
-							<Text style={ styles.copyrightText }
-										onPress={ () => Linking.openURL('https://andrewmmc.com') }>(c) 2018 Andrew
-								Mok</Text>
-						</Col>
-					</Grid>
+					{/*<Grid>*/}
+						{/*<Col style={ styles.copyrightContainer }>*/}
+							{/*<Text style={ styles.copyrightText }*/}
+										{/*onPress={ () => Linking.openURL('https://github.com/andrewmmc/add9u-react-native') }>Github</Text>*/}
+							{/*<Text style={ styles.copyrightText }*/}
+										{/*onPress={ () => Linking.openURL('https://github.com/andrewmmc/add9u-react-native/open-source-licenses.md') }>Open*/}
+								{/*Source Licenses</Text>*/}
+							{/*<Text style={ styles.copyrightText }*/}
+										{/*onPress={ () => Linking.openURL('https://andrewmmc.com') }>(c) 2018 Andrew Mok</Text>*/}
+						{/*</Col>*/}
+					{/*</Grid>*/}
 				</Content>
 				<SimplePicker
 					ref={ 'picker' }
