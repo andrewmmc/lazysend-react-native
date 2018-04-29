@@ -1,7 +1,8 @@
-import axios from 'axios'
 import React, { Component } from 'react'
 import { StyleSheet, Alert, FlatList, View } from 'react-native'
+import PropTypes from 'prop-types'
 import { Container, ListItem, Thumbnail, Text, Body } from 'native-base'
+import axios from 'axios'
 
 const styles = StyleSheet.create({
   'pageContainer': {
@@ -15,6 +16,12 @@ const SEARCH_URL = 'https://us-central1-add9u-mobile.cloudfunctions.net/get-news
 const SEARCH_KEYWORD = 'WhatsApp'
 
 export default class News extends Component {
+  static propTypes = {
+    navigation: PropTypes.shape({
+      navigate: PropTypes.func.isRequired
+    }).isRequired
+  }
+
   static navigationOptions = {
     title: 'Social Media News'
   }
@@ -35,16 +42,18 @@ export default class News extends Component {
 
   onRefresh () {
     const nextPageNum = 1
-    this.setState({pageNum: nextPageNum, articles: []})
-    this.getNews(nextPageNum)
+    // TODO: Known bug - Still keep old articles when refreshing in some cases, because of setState cycle
+    // https://reactjs.org/docs/react-component.html#setstate
+    this.setState({pageNum: nextPageNum, articles: []},
+      this.getNews(nextPageNum))
   }
 
   onEndReached () {
     const {loading, pageNum} = this.state
     const nextPageNum = pageNum + 1
     if (!loading && nextPageNum <= PAGE_LIMIT) {
-      this.setState({pageNum: nextPageNum})
-      this.getNews(nextPageNum)
+      this.setState({pageNum: nextPageNum},
+        this.getNews(nextPageNum))
     }
   }
 

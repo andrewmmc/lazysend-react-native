@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { StyleSheet, FlatList, View, Linking } from 'react-native'
+import PropTypes from 'prop-types'
 import { Container, ListItem, Text, Left, Body, Right } from 'native-base'
 import Icon from 'react-native-vector-icons/Ionicons'
 
@@ -18,6 +19,12 @@ const styles = StyleSheet.create({
 })
 
 export default class About extends Component {
+  static propTypes = {
+    navigation: PropTypes.shape({
+      navigate: PropTypes.func.isRequired
+    }).isRequired
+  }
+
   static navigationOptions = {
     title: 'About'
   }
