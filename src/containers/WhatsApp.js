@@ -1,14 +1,14 @@
 // @flow
 import * as React from 'react'
-import { StyleSheet, Linking } from 'react-native'
-import type { NavigationScreenProp, NavigationStateRoute } from 'react-navigation'
+import { Platform, StyleSheet, Linking } from 'react-native'
 import { Text, Container, Content, Grid, Col, Form, Item, Input, Button } from 'native-base'
 import Icon from 'react-native-vector-icons/Ionicons'
 import SimplePicker from 'react-native-simple-picker'
-import CountryCode from '../utils/CountryCode'
+import Country from '../utils/Country'
+import * as Url from '../utils/Url'
 
-const options = CountryCode.country.map(elem => elem.dialCode)
-const labels = CountryCode.country.map(elem => elem.name)
+const options = Country.map(elem => elem.dialCode)
+const labels = Country.map(elem => elem.name)
 const styles = StyleSheet.create({
   'icon': {
     fontSize: 72,
@@ -41,22 +41,24 @@ const styles = StyleSheet.create({
     paddingTop: 15,
     paddingBottom: 15
   },
-  'sendMessageBtn': {
+  'sendBtn': {
     marginTop: 30,
     justifyContent: 'center',
     alignSelf: 'center'
   },
-  'sendMessageBtnDisabled': {
+  'sendBtnDisabled': {
     backgroundColor: 'rgba(91, 184, 92, 0.5)'
+  },
+  'pickerBtn': {
+    color: '#057AFF',
+    fontSize: 20
   }
 })
 
-type Props = {
-  navigation: NavigationScreenProp<NavigationStateRoute>
-}
+type Props = {}
 
 type State = {
-  selectedOption: string,
+  selectedIndex: number,
   phoneNumber: string
 }
 
@@ -69,12 +71,28 @@ export default class WhatsApp extends React.Component<Props, State> {
     super(props)
 
     this.state = {
-      selectedOption: '852',
+      selectedIndex: 93, // 93: Hong Kong, Use AsyncStorage later to store selected value for next time use
       phoneNumber: ''
     }
   }
 
+  getCountryIndexByValue = (name: string, value: string): number => (
+    Country.findIndex(item => item[name] === value)
+  )
+
+  sendMessage = (countryCode: string, phoneNumber: string) => {
+    switch (Platform.OS) {
+      case 'ios':
+        Linking.openURL(Url.WHATSAPP_IOS_SEND_URL + countryCode + phoneNumber)
+        break
+      case 'android':
+      default:
+        Linking.openURL(Url.WHATSAPP_ANDROID_SEND_URL + countryCode + phoneNumber)
+    }
+  }
+
   render () {
+    const {selectedIndex, phoneNumber} = this.state
     return (
       <Container style={styles.pageContainer}>
         <Content style={styles.homeContainer}>
@@ -86,21 +104,20 @@ export default class WhatsApp extends React.Component<Props, State> {
               </Text></Col>
           </Grid>
           <Form>
-            <Item style={styles.countryCodePickerContainer} onPress={() => {
-              this.refs.picker.show()
-            }} regular>
-              {/* TODO: Show country name instead of country code */}
-              <Text style={styles.countryCodePicker}>+{this.state.selectedOption}</Text>
+            <Item style={styles.countryCodePickerContainer} onPress={() => this.refs.picker.show()} regular>
+              <Text style={styles.countryCodePicker}>{Country[selectedIndex].name}</Text>
             </Item>
             <Item regular>
-              <Input keyboardType='numeric'
-                onChangeText={(text) => this.setState({phoneNumber: text})}
+              <Input
+                keyboardType='numeric'
+                onChangeText={(value) => this.setState({phoneNumber: value})}
                 placeholder='Phone Number' />
             </Item>
             <Button
-              style={(this.state.phoneNumber === '') ? [styles.sendMessageBtn, styles.sendMessageBtnDisabled] : styles.sendMessageBtn}
-              onPress={() => Linking.openURL('whatsapp://send?phone=' + this.state.selectedOption + this.state.phoneNumber)}
-              disabled={this.state.phoneNumber === ''}
+              onPress={() => this.sendMessage(Country[selectedIndex].dialCode, phoneNumber)}
+              style={(phoneNumber === '') ? [styles.sendBtn, styles.sendBtnDisabled] : styles.sendBtn}
+              disabled={phoneNumber === ''}
+              title='Send Message'
               success><Text>Send Message</Text>
             </Button>
           </Form>
@@ -109,16 +126,13 @@ export default class WhatsApp extends React.Component<Props, State> {
           ref={'picker'}
           options={options}
           labels={labels}
-          // TODO: not hard code options[93] as Hong Kong
-          initialOptionIndex={93}
-          buttonStyle={{
-            color: '#057AFF',
-            fontSize: 20
-          }}
-          onSubmit={(option) => {
-            this.setState({
-              selectedOption: option
-            })
+          initialOptionIndex={selectedIndex}
+          // StyleSheet.flatten() for converting as plain JS object
+          // https://facebook.github.io/react-native/docs/stylesheet.html#flatten
+          buttonStyle={StyleSheet.flatten([styles.pickerBtn])}
+          onSubmit={(value) => {
+            const index = this.getCountryIndexByValue('dialCode', value)
+            this.setState({selectedIndex: index})
           }}
         />
       </Container>

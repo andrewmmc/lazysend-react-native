@@ -1,13 +1,13 @@
 // @flow
 import * as React from 'react'
 import { StyleSheet, WebView } from 'react-native'
-import type { NavigationScreenProp, NavigationStateRoute } from 'react-navigation'
+import type { NavigationScreenProp } from 'react-navigation'
 import { Container } from 'native-base'
 
 // Related issue: What is the correct Flow type for the `navigation` props of a screen?
 // https://github.com/react-navigation/react-navigation/issues/3643
 type Props = {
-  navigation: NavigationScreenProp<NavigationStateRoute>
+  navigation: NavigationScreenProp<any>
 }
 
 type State = {}
@@ -29,7 +29,7 @@ export default class InAppWebView extends React.Component<Props, State> {
     }
   }
 
-  static navigationOptions = ({navigation} : {navigation: NavigationScreenProp}) => {
+  static navigationOptions = ({navigation} : {navigation: NavigationScreenProp<any>}) => {
     const {title} = navigation.state.params
     return {title}
   }
