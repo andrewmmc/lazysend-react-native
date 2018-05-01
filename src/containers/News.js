@@ -1,8 +1,14 @@
-import React, { Component } from 'react'
-import { StyleSheet, Alert, FlatList, View } from 'react-native'
-import PropTypes from 'prop-types'
-import { Container, ListItem, Thumbnail, Text, Body } from 'native-base'
+// @flow
 import axios from 'axios'
+import * as React from 'react'
+import { StyleSheet, Alert, FlatList, View } from 'react-native'
+import type { NavigationScreenProp, NavigationStateRoute } from 'react-navigation'
+import { Container, ListItem, Thumbnail, Text, Body } from 'native-base'
+
+const PAGE_SIZE = 10
+const PAGE_LIMIT = 5
+const SEARCH_URL = 'https://us-central1-add9u-mobile.cloudfunctions.net/get-news'
+const SEARCH_KEYWORD = 'WhatsApp'
 
 const styles = StyleSheet.create({
   'pageContainer': {
@@ -10,23 +16,29 @@ const styles = StyleSheet.create({
   }
 })
 
-const PAGE_SIZE = 10
-const PAGE_LIMIT = 5
-const SEARCH_URL = 'https://us-central1-add9u-mobile.cloudfunctions.net/get-news'
-const SEARCH_KEYWORD = 'WhatsApp'
+type Articles = {
+  title: string,
+  url: string,
+  urlToImage?: string,
+  description: string
+}
 
-export default class News extends Component {
-  static propTypes = {
-    navigation: PropTypes.shape({
-      navigate: PropTypes.func.isRequired
-    }).isRequired
-  }
+type Props = {
+  navigation: NavigationScreenProp<NavigationStateRoute>
+}
 
+type State = {
+  loading: boolean,
+  articles: Array<Articles>,
+  pageNum: number
+}
+
+export default class News extends React.Component<Props, State> {
   static navigationOptions = {
     title: 'Social Media News'
   }
 
-  constructor (props) {
+  constructor (props: Props) {
     super(props)
     this.state = {
       loading: false,
@@ -57,7 +69,7 @@ export default class News extends Component {
     }
   }
 
-  getNews (pageNum) {
+  getNews (pageNum: number) {
     const {articles} = this.state
 
     this.setState({loading: true})

@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+// @flow
+import * as React from 'react'
 import { YellowBox } from 'react-native'
 import { AppInstalledChecker } from 'react-native-check-app-install'
 import { Navigation } from './config/Navigation'
@@ -13,12 +14,15 @@ YellowBox.ignoreWarnings([
   'Class RCTCxxModule was not exported'
 ])
 
-export default class App extends Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      whatsAppInstalled: false
-    }
+type Props = {}
+
+type State = {
+  whatsAppInstalled: boolean,
+}
+
+export default class App extends React.Component<Props, State> {
+  state = {
+    whatsAppInstalled: false
   }
 
   async componentDidMount () {
@@ -26,7 +30,7 @@ export default class App extends Component {
     this.setState({whatsAppInstalled: response})
   }
 
-  shouldComponentUpdate (nextProps, nextState) {
+  shouldComponentUpdate (nextProps: Props, nextState: State): boolean {
     return (nextState.whatsAppInstalled !== this.state.whatsAppInstalled)
   }
 

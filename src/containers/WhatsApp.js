@@ -1,5 +1,7 @@
-import React, { Component } from 'react'
+// @flow
+import * as React from 'react'
 import { StyleSheet, Linking } from 'react-native'
+import type { NavigationScreenProp, NavigationStateRoute } from 'react-navigation'
 import { Text, Container, Content, Grid, Col, Form, Item, Input, Button } from 'native-base'
 import Icon from 'react-native-vector-icons/Ionicons'
 import SimplePicker from 'react-native-simple-picker'
@@ -49,12 +51,21 @@ const styles = StyleSheet.create({
   }
 })
 
-export default class WhatsApp extends Component {
+type Props = {
+  navigation: NavigationScreenProp<NavigationStateRoute>
+}
+
+type State = {
+  selectedOption: string,
+  phoneNumber: string
+}
+
+export default class WhatsApp extends React.Component<Props, State> {
   static navigationOptions = {
     title: 'Add9u for WhatsApp'
   }
 
-  constructor (props) {
+  constructor (props: Props) {
     super(props)
 
     this.state = {

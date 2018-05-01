@@ -1,7 +1,16 @@
-import React, { Component } from 'react'
+// @flow
+import * as React from 'react'
 import { StyleSheet, WebView } from 'react-native'
-import PropTypes from 'prop-types'
+import type { NavigationScreenProp, NavigationStateRoute } from 'react-navigation'
 import { Container } from 'native-base'
+
+// Related issue: What is the correct Flow type for the `navigation` props of a screen?
+// https://github.com/react-navigation/react-navigation/issues/3643
+type Props = {
+  navigation: NavigationScreenProp<NavigationStateRoute>
+}
+
+type State = {}
 
 const styles = StyleSheet.create({
   'pageContainer': {
@@ -9,18 +18,7 @@ const styles = StyleSheet.create({
   }
 })
 
-export default class InAppWebView extends Component {
-  static propTypes = {
-    navigation: PropTypes.shape({
-      state: PropTypes.shape({
-        params: PropTypes.shape({
-          url: PropTypes.string.isRequired,
-          title: PropTypes.string
-        })
-      })
-    }).isRequired
-  }
-
+export default class InAppWebView extends React.Component<Props, State> {
   static defaultProps = {
     navigation: {
       state: {
@@ -31,7 +29,7 @@ export default class InAppWebView extends Component {
     }
   }
 
-  static navigationOptions = ({navigation}) => {
+  static navigationOptions = ({navigation} : {navigation: NavigationScreenProp}) => {
     const {title} = navigation.state.params
     return {title}
   }

@@ -1,6 +1,7 @@
-import React, { Component } from 'react'
+// @flow
+import * as React from 'react'
 import { StyleSheet, FlatList, View, Linking } from 'react-native'
-import PropTypes from 'prop-types'
+import type { NavigationScreenProp, NavigationStateRoute } from 'react-navigation'
 import { Container, ListItem, Text, Left, Body, Right } from 'native-base'
 import Icon from 'react-native-vector-icons/Ionicons'
 
@@ -18,18 +19,27 @@ const styles = StyleSheet.create({
   }
 })
 
-export default class About extends Component {
-  static propTypes = {
-    navigation: PropTypes.shape({
-      navigate: PropTypes.func.isRequired
-    }).isRequired
-  }
+type Items = {
+  title: string,
+  icon: string,
+  inAppUrl?: string,
+  url?: string
+}
 
+type Props = {
+  navigation: NavigationScreenProp<NavigationStateRoute>
+}
+
+type State = {
+  items: Array<Items>
+}
+
+export default class About extends React.Component<Props, State> {
   static navigationOptions = {
     title: 'About'
   }
 
-  constructor (props) {
+  constructor (props: Props) {
     super(props)
     this.state = {
       items: [{
@@ -63,7 +73,7 @@ export default class About extends Component {
     const renderItem = ({item}) => (
       <ListItem icon onPress={() => item.inAppUrl
         ? navigate('AboutWebView', {url: item.inAppUrl, title: item.title})
-        : Linking.openURL(item.url)}>
+        : Linking.openURL(item.url || '')}>
         <Left>
           <Icon name={item.icon} style={styles.icon} />
         </Left>

@@ -1,5 +1,5 @@
+// @flow
 import React from 'react'
-import PropTypes from 'prop-types'
 import { StackNavigator, TabBarBottom } from 'react-navigation'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import News from '../containers/News'
@@ -7,27 +7,15 @@ import WhatsApp from '../containers/WhatsApp'
 import InAppWebView from '../components/InAppWebView'
 import About from '../containers/About'
 
-HomeIcon.propTypes = {
-  tintColor: PropTypes.string.isRequired
-}
-
-NewsIcon.propTypes = {
-  tintColor: PropTypes.string.isRequired
-}
-
-AboutIcon.propTypes = {
-  tintColor: PropTypes.string.isRequired
-}
-
-export function HomeIcon ({tintColor}) {
+export function HomeIcon ({tintColor}:{tintColor: string}) {
   return (<Ionicons name='ios-chatbubbles' size={25} color={tintColor} />)
 }
 
-export function NewsIcon ({tintColor}) {
+export function NewsIcon ({tintColor}:{tintColor: string}) {
   return (<Ionicons name='ios-information-circle' size={25} color={tintColor} />)
 }
 
-export function AboutIcon ({tintColor}) {
+export function AboutIcon ({tintColor}:{tintColor: string}) {
   return (<Ionicons name='ios-paper' size={25} color={tintColor} />)
 }
 

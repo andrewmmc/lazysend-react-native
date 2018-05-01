@@ -1,3 +1,4 @@
+// @flow
 import { TabNavigator } from 'react-navigation'
 import { HomeIcon, NewsIcon, AboutIcon, HomeStack, NewsStack, AboutStack, tabConfig as config } from './Common'
 
