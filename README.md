@@ -11,7 +11,7 @@ The instructions below will get you a copy of the project up and run on your mac
 
 Clone the repo, and run:
 ``` bash
-# install global dependencies (if you doesn't have)
+# install global dependencies (if you don't have)
 brew install node
 brew install watchman
 npm install -g react-native-cli
