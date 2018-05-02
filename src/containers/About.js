@@ -55,10 +55,6 @@ export default class About extends React.Component<Props, State> {
         'icon': 'ios-alert',
         'inAppUrl': 'https://add9u.com/mobile/DECLARATION.txt'
       }, {
-        'title': 'News powered by NewsAPI.org',
-        'icon': 'ios-paper',
-        'inAppUrl': 'https://newsapi.org'
-      }, {
         'title': '(c) 2018 Andrew Mok',
         'icon': 'ios-home',
         'url': 'https://andrewmmc.com'

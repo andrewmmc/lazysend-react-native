@@ -2,10 +2,10 @@
 import React from 'react'
 import { StackNavigator, TabBarBottom } from 'react-navigation'
 import Ionicons from 'react-native-vector-icons/Ionicons'
-import News from '../containers/News'
-import WhatsApp from '../containers/WhatsApp'
-import InAppWebView from '../components/InAppWebView'
+import Send from '../containers/Send'
+import LazyMessage from '../containers/LazyMessage'
 import About from '../containers/About'
+import InAppWebView from '../components/InAppWebView'
 
 export function HomeIcon ({tintColor}:{tintColor: string}) {
   return (<Ionicons name='ios-chatbubbles' size={25} color={tintColor} />)
@@ -20,12 +20,11 @@ export function AboutIcon ({tintColor}:{tintColor: string}) {
 }
 
 export const HomeStack = StackNavigator({
-  Home: {screen: WhatsApp}
+  Home: {screen: Send}
 })
 
-export const NewsStack = StackNavigator({
-  News: {screen: News},
-  NewsWebView: {screen: InAppWebView}
+export const LazyMessageStack = StackNavigator({
+  LazyMessage: {screen: LazyMessage}
 })
 
 export const AboutStack = StackNavigator({

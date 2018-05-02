@@ -1,19 +1,19 @@
 // @flow
 import { TabNavigator } from 'react-navigation'
-import { HomeIcon, NewsIcon, AboutIcon, HomeStack, NewsStack, AboutStack, tabConfig as config } from './Common'
+import { HomeIcon, NewsIcon, AboutIcon, HomeStack, LazyMessageStack, AboutStack, tabConfig as config } from './Common'
 
 const route = {
   Home: {
     screen: HomeStack,
     navigationOptions: {
-      tabBarLabel: 'Add9u',
+      tabBarLabel: 'Send',
       tabBarIcon: HomeIcon
     }
   },
-  News: {
-    screen: NewsStack,
+  LazyMessage: {
+    screen: LazyMessageStack,
     navigationOptions: {
-      tabBarLabel: 'News',
+      tabBarLabel: 'Lazy Message',
       tabBarIcon: NewsIcon
     }
   },
