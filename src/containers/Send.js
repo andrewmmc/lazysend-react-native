@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
   'pickerContainer': {
     marginBottom: 15
   },
-  'pickerContainerDisabled': {
+  'pickerDisabled': {
     opacity: 0.5
   },
   'picker': {
@@ -119,17 +119,19 @@ class Send extends React.Component<Props, State> {
   getSelectedMessageByKey = (key: number): string => {
     const { messages } = this.props
     const index = messages.findIndex(item => item.key === key)
-    return (messages && messages[index]) ? messages[index].message : 'Select Lazy Message'
+    return (messages && messages[index]) ? messages[index].message : ''
   }
 
-  sendMessage = (countryCode: string, phoneNumber: string, whatsAppInstalled: boolean = false) => {
-    let url
+  sendMessage = (countryCode: string, phoneNumber: string, message: string, whatsAppInstalled: boolean = false) => {
+    let url, url2
     if (whatsAppInstalled) {
       url = (Platform.OS === 'ios') ? Url.WHATSAPP_IOS_SEND_URL : Url.WHATSAPP_ANDROID_SEND_URL
+      url2 = (Platform.OS === 'ios') ? Url.WHATSAPP_IOS_TEXT_CONNECT : Url.WHATSAPP_ANDROID_TEXT_CONNECT
     } else {
       url = (Platform.OS === 'ios') ? Url.MESSAGE_IOS_SEND_URL : Url.MESSAGE_ANDROID_SEND_URL
+      url2 = (Platform.OS === 'ios') ? Url.MESSAGE_IOS_TEXT_CONNECT : Url.MESSAGE_ANDROID_TEXT_CONNECT
     }
-    Linking.openURL(url + countryCode + phoneNumber)
+    Linking.openURL(url + countryCode + phoneNumber + url2 + message)
   }
 
   render () {
@@ -160,15 +162,20 @@ class Send extends React.Component<Props, State> {
                 }}
                 placeholder='Phone Number' />
             </Item>
+            {messages.length > 0 &&
             <Item
-              // style={(messages.length === 0) ? [styles.pickerContainer, styles.pickerContainerDisabled] : styles.pickerContainer}
               style={styles.pickerContainer}
-              onPress={() => this.refs.messagePicker.show()}
+              onPress={() => { this.refs.messagePicker.show() }}
               regular>
-              <Text style={styles.picker}>{this.getSelectedMessageByKey(selectedMessageKey)}</Text>
-            </Item>
+              <Text style={styles.picker}>{selectedMessageKey === 0 ? 'Select Lazy Message' : this.getSelectedMessageByKey(selectedMessageKey)}</Text>
+            </Item>}
+            {messages.length === 0 &&
+            <Item style={[styles.pickerContainer, styles.pickerDisabled]} regular>
+              <Text style={styles.picker}>Select Lazy Message</Text>
+            </Item>}
             <Button
-              onPress={() => this.sendMessage(Country[selectedCountryIndex].dialCode, phoneNumber, whatsAppInstalled)}
+              // TODO: need cleanup
+              onPress={() => this.sendMessage(Country[selectedCountryIndex].dialCode, phoneNumber, this.getSelectedMessageByKey(selectedMessageKey), whatsAppInstalled)}
               style={(phoneNumber === '') ? [styles.sendBtn, styles.sendBtnDisabled] : styles.sendBtn}
               disabled={phoneNumber === ''}
               title='Send Message'

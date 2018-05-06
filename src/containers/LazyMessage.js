@@ -95,6 +95,12 @@ class LazyMessage extends React.Component<Props, State> {
   }
 
   addMessage (message: string) {
+    if (message === '') {
+      Alert.alert('Please input message', '',
+        [{text: 'OK', onPress: () => console.log('OK')}], {cancelable: false})
+      return
+    }
+
     try {
       const { addMessage } = this.props
       addMessage(message)
