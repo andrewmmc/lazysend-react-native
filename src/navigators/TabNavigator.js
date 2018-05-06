@@ -3,6 +3,7 @@ import React from 'react'
 import { StackNavigator, TabBarBottom, TabNavigator } from 'react-navigation'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import Send from '../containers/Send'
+import LazyMessage from '../containers/LazyMessage'
 import About from '../containers/About'
 import InAppWebView from '../components/InAppWebView'
 
@@ -10,8 +11,12 @@ function SendIcon ({tintColor}: { tintColor: string }) {
   return (<Ionicons name='ios-chatbubbles' size={25} color={tintColor} />)
 }
 
+function LazyMessageIcon ({tintColor}: { tintColor: string }) {
+  return (<Ionicons name='ios-quote' size={25} color={tintColor} />)
+}
+
 function AboutIcon ({tintColor}: { tintColor: string }) {
-  return (<Ionicons name='ios-paper' size={25} color={tintColor} />)
+  return (<Ionicons name='ios-information-circle' size={25} color={tintColor} />)
 }
 
 const AboutStack = StackNavigator({
@@ -25,6 +30,13 @@ const route = {
     navigationOptions: {
       tabBarLabel: 'Send',
       tabBarIcon: SendIcon
+    }
+  },
+  LazyMessage: {
+    screen: LazyMessage,
+    navigationOptions: {
+      tabBarLabel: 'Lazy Messages',
+      tabBarIcon: LazyMessageIcon
     }
   },
   About: {

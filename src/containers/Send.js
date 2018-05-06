@@ -9,7 +9,8 @@ import SimplePicker from 'react-native-simple-picker'
 import Country from '../utils/Country'
 import * as Url from '../utils/Url'
 
-import { Creators } from '../actions/sendAction'
+import { Creators as SendCreators } from '../actions/sendAction'
+import { Creators as LazyMessageCreators } from '../actions/lazyMessageAction'
 
 const options = Country.map(elem => elem.dialCode)
 const labels = Country.map(elem => elem.name)
@@ -36,14 +37,20 @@ const styles = StyleSheet.create({
     paddingTop: 50,
     paddingBottom: 50
   },
-  'countryCodePickerContainer': {
+  'pickerContainer': {
     marginBottom: 15
   },
-  'countryCodePicker': {
+  'pickerContainerDisabled': {
+    opacity: 0.5
+  },
+  'picker': {
     paddingLeft: 10,
     paddingRight: 10,
     paddingTop: 15,
     paddingBottom: 15
+  },
+  'inputContainer': {
+    marginBottom: 15
   },
   'sendBtn': {
     marginTop: 30,
@@ -59,33 +66,44 @@ const styles = StyleSheet.create({
   }
 })
 
+type Messages = {
+  key: number,
+  message: string
+}
+
 type Props = {
   selectedCountryIndex: number,
   whatsAppInstalled: boolean,
-  initData: () => mixed,
+  initSendData: () => mixed,
+  initLazyMessageData: () => mixed,
   updateSelectedCountryIndex: (number) => mixed,
+  messages: Array<Messages>,
 }
 
 type State = {
   phoneNumber: string,
+  selectedMessageKey: number
 }
 
 class Send extends React.Component<Props, State> {
   static navigationOptions = {
-    title: 'Add9u'
+    title: 'Add9u for Messages'
   }
 
   constructor (props: Props) {
     super(props)
 
     this.state = {
-      phoneNumber: ''
+      phoneNumber: '',
+      selectedMessageKey: 0
     }
   }
 
   componentDidMount () {
-    const { initData } = this.props
-    initData()
+    // TODO: Move init data to App.js
+    const { initSendData, initLazyMessageData } = this.props
+    initSendData()
+    initLazyMessageData()
   }
 
   getCountryIndexByValue = (name: string, value: string): number => (
@@ -96,6 +114,12 @@ class Send extends React.Component<Props, State> {
   updateSelectedCountryIndex = (selectedCountryIndex: number) => {
     const { updateSelectedCountryIndex } = this.props
     updateSelectedCountryIndex(selectedCountryIndex)
+  }
+
+  getSelectedMessageByKey = (key: number): string => {
+    const { messages } = this.props
+    const index = messages.findIndex(item => item.key === key)
+    return (messages && messages[index]) ? messages[index].message : 'Select Lazy Message'
   }
 
   sendMessage = (countryCode: string, phoneNumber: string, whatsAppInstalled: boolean = false) => {
@@ -109,8 +133,9 @@ class Send extends React.Component<Props, State> {
   }
 
   render () {
-    const {whatsAppInstalled, selectedCountryIndex} = this.props
-    const {phoneNumber} = this.state
+    const {whatsAppInstalled, selectedCountryIndex, messages} = this.props
+    const {phoneNumber, selectedMessageKey} = this.state
+
     return (
       <Container style={styles.pageContainer}>
         <Content style={styles.homeContainer}>
@@ -124,16 +149,23 @@ class Send extends React.Component<Props, State> {
               </Text></Col>
           </Grid>
           <Form>
-            <Item style={styles.countryCodePickerContainer} onPress={() => this.refs.picker.show()} regular>
-              <Text style={styles.countryCodePicker}>{Country[selectedCountryIndex].name}</Text>
+            <Item style={styles.pickerContainer} onPress={() => this.refs.countryPicker.show()} regular>
+              <Text style={styles.picker}>{Country[selectedCountryIndex].name}</Text>
             </Item>
-            <Item regular>
+            <Item style={styles.inputContainer} regular>
               <Input
                 keyboardType='numeric'
                 onChangeText={(value) => {
                   this.setState({phoneNumber: value})
                 }}
                 placeholder='Phone Number' />
+            </Item>
+            <Item
+              // style={(messages.length === 0) ? [styles.pickerContainer, styles.pickerContainerDisabled] : styles.pickerContainer}
+              style={styles.pickerContainer}
+              onPress={() => this.refs.messagePicker.show()}
+              regular>
+              <Text style={styles.picker}>{this.getSelectedMessageByKey(selectedMessageKey)}</Text>
             </Item>
             <Button
               onPress={() => this.sendMessage(Country[selectedCountryIndex].dialCode, phoneNumber, whatsAppInstalled)}
@@ -145,7 +177,7 @@ class Send extends React.Component<Props, State> {
           </Form>
         </Content>
         <SimplePicker
-          ref={'picker'}
+          ref='countryPicker'
           options={options}
           labels={labels}
           initialOptionIndex={selectedCountryIndex}
@@ -157,21 +189,31 @@ class Send extends React.Component<Props, State> {
             this.updateSelectedCountryIndex(index)
           }}
         />
+        <SimplePicker
+          ref='messagePicker'
+          options={messages.map(elem => elem.key)}
+          labels={messages.map(elem => elem.message)}
+          buttonStyle={StyleSheet.flatten([styles.pickerBtn])}
+          onSubmit={(value) => {
+            this.setState({selectedMessageKey: value})
+          }}
+        />
       </Container>
     )
   }
 }
 
-const mapStateToProps = ({ send }) => ({
+const mapStateToProps = ({ send, lazyMessage }) => ({
   selectedCountryIndex: send.selectedCountryIndex,
-  whatsAppInstalled: send.whatsAppInstalled
+  whatsAppInstalled: send.whatsAppInstalled,
+  messages: lazyMessage.messages
 })
 
 const mapDispatchToProps = dispatch =>
   bindActionCreators({
-    reset: Creators.reset,
-    initData: Creators.initData,
-    updateSelectedCountryIndex: Creators.updateSelectedCountryIndex
+    initSendData: SendCreators.initData,
+    updateSelectedCountryIndex: SendCreators.updateSelectedCountryIndex,
+    initLazyMessageData: LazyMessageCreators.initData
   }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Send)
