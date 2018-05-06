@@ -1,13 +1,15 @@
 // @flow
 import * as React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 import { Platform, StyleSheet, Linking } from 'react-native'
-import type { NavigationScreenProp } from 'react-navigation'
-import { AppInstalledChecker } from 'react-native-check-app-install'
 import { Text, Container, Content, Grid, Col, Form, Item, Input, Button } from 'native-base'
 import Icon from 'react-native-vector-icons/Ionicons'
 import SimplePicker from 'react-native-simple-picker'
 import Country from '../utils/Country'
 import * as Url from '../utils/Url'
+
+import { Creators } from '../actions/sendAction'
 
 const options = Country.map(elem => elem.dialCode)
 const labels = Country.map(elem => elem.name)
@@ -57,70 +59,58 @@ const styles = StyleSheet.create({
   }
 })
 
-// Related issue: What is the correct Flow type for the `navigation` props of a screen?
-// https://github.com/react-navigation/react-navigation/issues/3643
 type Props = {
-  navigation: NavigationScreenProp<any>
+  selectedCountryIndex: number,
+  whatsAppInstalled: boolean,
+  initData: () => mixed,
+  updateSelectedCountryIndex: (number) => mixed,
 }
 
 type State = {
-  selectedIndex: number,
   phoneNumber: string,
-  whatsAppInstalled: boolean
 }
 
-export default class Send extends React.Component<Props, State> {
-  static navigationOptions = ({navigation} : {navigation: NavigationScreenProp<any>}) => {
-    const { params } = navigation.state
-    return {title: params ? params.title : 'Add9u for Message'}
+class Send extends React.Component<Props, State> {
+  static navigationOptions = {
+    title: 'Add9u'
   }
 
   constructor (props: Props) {
     super(props)
 
     this.state = {
-      selectedIndex: 93, // 93: Hong Kong, Use AsyncStorage later to store selected value for next time use
-      phoneNumber: '',
-      whatsAppInstalled: false // TODO: Provide option for switching Message and WhatsApp in settings
+      phoneNumber: ''
     }
   }
 
-  async componentDidMount () {
-    const { setParams } = this.props.navigation
-    // const response = await AppInstalledChecker.checkURLScheme('whatsapp')
-    const response = false
-    this.setState({whatsAppInstalled: response})
-    setParams({ title: response ? 'Add9u for WhatsApp' : 'Add9u for Message' })
+  componentDidMount () {
+    const { initData } = this.props
+    initData()
   }
 
   getCountryIndexByValue = (name: string, value: string): number => (
+    // TODO: Fix the bug - options with same country code
     Country.findIndex(item => item[name] === value)
   )
 
-  sendWhatsAppMessage = (countryCode: string, phoneNumber: string) => {
-    switch (Platform.OS) {
-      case 'ios':
-        Linking.openURL(Url.WHATSAPP_IOS_SEND_URL + countryCode + phoneNumber)
-        break
-      case 'android':
-      default:
-        Linking.openURL(Url.WHATSAPP_ANDROID_SEND_URL + countryCode + phoneNumber)
-    }
+  updateSelectedCountryIndex = (selectedCountryIndex: number) => {
+    const { updateSelectedCountryIndex } = this.props
+    updateSelectedCountryIndex(selectedCountryIndex)
   }
 
-  sendMessage = (countryCode: string, phoneNumber: string) => {
-    switch (Platform.OS) {
-      case 'ios':
-        Linking.openURL(Url.MESSAGE_IOS_SEND_URL + countryCode + phoneNumber)
-        break
-      case 'android':
-      default:
-        Linking.openURL(Url.MESSAGE_ANDROID_SEND_URL + countryCode + phoneNumber)
+  sendMessage = (countryCode: string, phoneNumber: string, whatsAppInstalled: boolean = false) => {
+    let url
+    if (whatsAppInstalled) {
+      url = (Platform.OS === 'ios') ? Url.WHATSAPP_IOS_SEND_URL : Url.WHATSAPP_ANDROID_SEND_URL
+    } else {
+      url = (Platform.OS === 'ios') ? Url.MESSAGE_IOS_SEND_URL : Url.MESSAGE_ANDROID_SEND_URL
     }
+    Linking.openURL(url + countryCode + phoneNumber)
   }
 
   render () {
-    const {selectedIndex, phoneNumber, whatsAppInstalled} = this.state
+    const {whatsAppInstalled, selectedCountryIndex} = this.props
+    const {phoneNumber} = this.state
     return (
       <Container style={styles.pageContainer}>
         <Content style={styles.homeContainer}>
@@ -129,27 +119,24 @@ export default class Send extends React.Component<Props, State> {
               <Icon name='ios-chatbubbles' style={styles.icon} />
               <Text style={styles.leadingText}>
                 {whatsAppInstalled
-                  ? 'Send an lazy WhatsApp message to a person with single click!'
-                  : 'Send an lazy message to a person with single click!'}
+                  ? 'Send a lazy WhatsApp message to a person with single click!'
+                  : 'Send a lazy message to a person with single click!'}
               </Text></Col>
           </Grid>
           <Form>
             <Item style={styles.countryCodePickerContainer} onPress={() => this.refs.picker.show()} regular>
-              <Text style={styles.countryCodePicker}>{Country[selectedIndex].name}</Text>
+              <Text style={styles.countryCodePicker}>{Country[selectedCountryIndex].name}</Text>
             </Item>
             <Item regular>
               <Input
                 keyboardType='numeric'
                 onChangeText={(value) => {
                   this.setState({phoneNumber: value})
-                  console.log(value)
                 }}
                 placeholder='Phone Number' />
             </Item>
             <Button
-              onPress={() => whatsAppInstalled
-                ? this.sendWhatsAppMessage(Country[selectedIndex].dialCode, phoneNumber)
-                : this.sendMessage(Country[selectedIndex].dialCode, phoneNumber)}
+              onPress={() => this.sendMessage(Country[selectedCountryIndex].dialCode, phoneNumber, whatsAppInstalled)}
               style={(phoneNumber === '') ? [styles.sendBtn, styles.sendBtnDisabled] : styles.sendBtn}
               disabled={phoneNumber === ''}
               title='Send Message'
@@ -161,16 +148,30 @@ export default class Send extends React.Component<Props, State> {
           ref={'picker'}
           options={options}
           labels={labels}
-          initialOptionIndex={selectedIndex}
+          initialOptionIndex={selectedCountryIndex}
           // StyleSheet.flatten() for converting as plain JS object
           // https://facebook.github.io/react-native/docs/stylesheet.html#flatten
           buttonStyle={StyleSheet.flatten([styles.pickerBtn])}
           onSubmit={(value) => {
             const index = this.getCountryIndexByValue('dialCode', value)
-            this.setState({selectedIndex: index})
+            this.updateSelectedCountryIndex(index)
           }}
         />
       </Container>
     )
   }
 }
+
+const mapStateToProps = ({ send }) => ({
+  selectedCountryIndex: send.selectedCountryIndex,
+  whatsAppInstalled: send.whatsAppInstalled
+})
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators({
+    reset: Creators.reset,
+    initData: Creators.initData,
+    updateSelectedCountryIndex: Creators.updateSelectedCountryIndex
+  }, dispatch)
+
+export default connect(mapStateToProps, mapDispatchToProps)(Send)

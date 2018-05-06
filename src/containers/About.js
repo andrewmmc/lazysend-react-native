@@ -22,8 +22,8 @@ const styles = StyleSheet.create({
 type Items = {
   title: string,
   icon: string,
-  inAppUrl?: string,
-  url?: string
+  inApp: boolean,
+  url: string
 }
 
 type Props = {
@@ -45,19 +45,23 @@ export default class About extends React.Component<Props, State> {
       items: [{
         'title': 'Project GitHub',
         'icon': 'logo-github',
-        'url': 'https://github.com/andrewmmc/add9u-react-native'
+        'url': 'https://github.com/andrewmmc/add9u-react-native',
+        'inApp': false
       }, {
         'title': 'Open Source Licenses',
         'icon': 'ios-information-circle',
-        'inAppUrl': 'https://add9u.com/mobile/LICENSES.txt'
+        'url': 'https://add9u.com/mobile/LICENSES.txt',
+        'inApp': true
       }, {
         'title': 'Declaration',
         'icon': 'ios-alert',
-        'inAppUrl': 'https://add9u.com/mobile/DECLARATION.txt'
+        'url': 'https://add9u.com/mobile/DECLARATION.txt',
+        'inApp': true
       }, {
         'title': '(c) 2018 Andrew Mok',
         'icon': 'ios-home',
-        'url': 'https://andrewmmc.com'
+        'url': 'https://andrewmmc.com',
+        'inApp': false
       }]
     }
   }
@@ -67,8 +71,8 @@ export default class About extends React.Component<Props, State> {
     const {navigate} = this.props.navigation
 
     const renderItem = ({item}) => (
-      <ListItem icon onPress={() => item.inAppUrl
-        ? navigate('AboutWebView', {url: item.inAppUrl, title: item.title})
+      <ListItem icon onPress={() => item.inApp
+        ? navigate('AboutWebView', {url: item.url, title: item.title})
         : Linking.openURL(item.url || '')}>
         <Left>
           <Icon name={item.icon} style={styles.icon} />

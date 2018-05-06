@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux'
-import nav from './nav'
-import sendReducer from './send/index'
+import navReducer from './navReducer'
+import sendReducer from './sendReducer'
 
 const AppReducer = combineReducers({
-  nav,
+  nav: navReducer,
   send: sendReducer
 })
 

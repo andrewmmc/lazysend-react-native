@@ -2,7 +2,7 @@
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import { YellowBox } from 'react-native'
-import AppWithNavigationState from './navigators/Navigator'
+import AppWithNavigationState from './navigators/AppNavigator'
 import configureStore from './store'
 
 // Dirty fix for react-navigation issue & react-native issue

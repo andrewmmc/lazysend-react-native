@@ -2,8 +2,9 @@ import { createActions } from 'reduxsauce'
 
 const {Creators, Types} = createActions({
   reset: null,
-  testing: null,
-  testingSuccess: null
-}, {prefix: 'send'})
+  initData: null,
+  updateWhatsappInstalled: ['whatsAppInstalled'],
+  updateSelectedCountryIndex: ['selectedCountryIndex']
+}, {prefix: 'send:'})
 
 export { Creators, Types }
