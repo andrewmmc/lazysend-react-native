@@ -29,9 +29,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
-               BuildableName = "add9umobile-tvOS.app"
-               BlueprintName = "add9umobile-tvOS"
-               ReferencedContainer = "container:add9umobile.xcodeproj">
+               BuildableName = "LazySend-tvOS.app"
+               BlueprintName = "LazySend-tvOS"
+               ReferencedContainer = "container:LazySend.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -43,9 +43,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2D02E48F1E0B4A5D006451C7"
-               BuildableName = "add9umobile-tvOSTests.xctest"
-               BlueprintName = "add9umobile-tvOSTests"
-               ReferencedContainer = "container:add9umobile.xcodeproj">
+               BuildableName = "LazySend-tvOSTests.xctest"
+               BlueprintName = "LazySend-tvOSTests"
+               ReferencedContainer = "container:LazySend.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -61,9 +61,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2D02E48F1E0B4A5D006451C7"
-               BuildableName = "add9umobile-tvOSTests.xctest"
-               BlueprintName = "add9umobile-tvOSTests"
-               ReferencedContainer = "container:add9umobile.xcodeproj">
+               BuildableName = "LazySend-tvOSTests.xctest"
+               BlueprintName = "LazySend-tvOSTests"
+               ReferencedContainer = "container:LazySend.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -71,9 +71,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
-            BuildableName = "add9umobile-tvOS.app"
-            BlueprintName = "add9umobile-tvOS"
-            ReferencedContainer = "container:add9umobile.xcodeproj">
+            BuildableName = "LazySend-tvOS.app"
+            BlueprintName = "LazySend-tvOS"
+            ReferencedContainer = "container:LazySend.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -94,9 +94,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
-            BuildableName = "add9umobile-tvOS.app"
-            BlueprintName = "add9umobile-tvOS"
-            ReferencedContainer = "container:add9umobile.xcodeproj">
+            BuildableName = "LazySend-tvOS.app"
+            BlueprintName = "LazySend-tvOS"
+            ReferencedContainer = "container:LazySend.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -113,9 +113,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
-            BuildableName = "add9umobile-tvOS.app"
-            BlueprintName = "add9umobile-tvOS"
-            ReferencedContainer = "container:add9umobile.xcodeproj">
+            BuildableName = "LazySend-tvOS.app"
+            BlueprintName = "LazySend-tvOS"
+            ReferencedContainer = "container:LazySend.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

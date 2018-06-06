@@ -10,11 +10,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF'
   },
   'icon': {
-    fontSize: 15,
+    fontSize: 24,
     color: 'rgb(91, 184, 92)'
   },
   'arrow': {
-    fontSize: 15,
+    fontSize: 20,
     color: 'lightgray'
   }
 })
@@ -43,19 +43,29 @@ export default class About extends React.Component<Props, State> {
     super(props)
     this.state = {
       items: [{
-        'title': 'Project GitHub',
-        'icon': 'logo-github',
-        'url': 'https://github.com/andrewmmc/add9u-react-native',
-        'inApp': false
-      }, {
+      //   'title': 'Project GitHub',
+      //   'icon': 'logo-github',
+      //   'url': 'https://github.com/andrewmmc/add9u-react-native',
+      //   'inApp': false
+      // }, {
+      //   'title': 'LazySend.com',
+      //   'icon': 'ios-home',
+      //   'url': 'https://lazysend.com',
+      //   'inApp': false
+      // }, {
         'title': 'Open Source Licenses',
         'icon': 'ios-information-circle',
-        'url': 'https://add9u.com/mobile/LICENSES.txt',
+        'url': 'https://lazysend.com/licenses',
         'inApp': true
       }, {
         'title': 'Declaration',
-        'icon': 'ios-alert',
-        'url': 'https://add9u.com/mobile/DECLARATION.txt',
+        'icon': 'ios-bonfire',
+        'url': 'https://lazysend.com/declaration',
+        'inApp': true
+      }, {
+        'title': 'Privacy Policy',
+        'icon': 'ios-eye',
+        'url': 'https://lazysend.com/privacypolicy',
         'inApp': true
       }, {
         'title': '(c) 2018 Andrew Mok',

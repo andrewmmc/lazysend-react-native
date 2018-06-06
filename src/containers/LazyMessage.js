@@ -87,7 +87,8 @@ class LazyMessage extends React.Component<Props, State> {
     }
 
     prompt(
-      'New Lazy Message', '',
+      'New Lazy Message',
+      '',
       [ { text: 'Cancel', onPress: () => console.log('Cancel'), style: 'cancel' },
         { text: 'OK', onPress: (message) => this.addMessage(message) } ],
       { type: 'plain-text', cancelable: true, defaultValue: '', placeholder: 'Message' }

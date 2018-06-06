@@ -87,7 +87,7 @@ type State = {
 
 class Send extends React.Component<Props, State> {
   static navigationOptions = {
-    title: 'Add9u for Messages'
+    title: 'LazySend for Messages'
   }
 
   constructor (props: Props) {
