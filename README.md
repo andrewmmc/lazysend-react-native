@@ -1,5 +1,7 @@
 # Add9u for WhatsApp: React Native version for iOS
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/andrewmmc/add9u-react-native.svg?token=423ae55645c9f0dea5ad05c494397c8dd1c37fa7e363c0e4cb135b3d9a8e9683&ts=1543314273567)](https://greenkeeper.io/)
+
 > It is so stupid that I have to add a new person every time to phone book because I want to send a WhatsApp message to him/her.
 > 
 > That's why I make this simple react native mobile application. It allows you to send a WhatsApp message to a person without adding him/her to the phone book.
