@@ -1,4 +1,4 @@
-# Add9u for WhatsApp: React Native version for iOS
+# LazySend in React Native version
 
 > It is so stupid that I have to add a new person every time to phone book because I want to send a WhatsApp message to him/her.
 > 
